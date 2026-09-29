@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ArrowRight, Check, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, Check, CloudSun, Mail, ReceiptText, RefreshCw, RotateCcw, ShieldCheck, Sparkles, Terminal, Trophy, type LucideIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ type Option = {
 
 type Scenario = {
   id: string;
-  icon: string;
+  Icon: LucideIcon;
   label: string;
   setup: string;
   whyBest: string;
@@ -33,7 +33,7 @@ type PlayedRound = {
 const scenarios: Scenario[] = [
   {
     id: "email",
-    icon: "📧",
+    Icon: Mail,
     label: "Email summaries",
     setup: "LEDGER reads all of Gill’s emails every morning and sums them up for him.",
     whyBest: "the hidden message looks like a real order to an AI that cannot tell instructions from email text.",
@@ -47,7 +47,7 @@ const scenarios: Scenario[] = [
   },
   {
     id: "weather",
-    icon: "🌦️",
+    Icon: CloudSun,
     label: "Stranger’s weather tool",
     setup: "Gill’s team adds a free weather tool to LEDGER. A stranger posted it online.",
     whyBest: "the tool’s own hidden description can repeatedly trick LEDGER whenever anyone checks the weather.",
@@ -61,7 +61,7 @@ const scenarios: Scenario[] = [
   },
   {
     id: "update",
-    icon: "🔄",
+    Icon: RefreshCw,
     label: "Overnight update",
     setup: "A popular add-on that has been safe for months updates itself overnight.",
     whyBest: "everyone trusted the add-on, so the hacked update can run harmful software before anyone checks it.",
@@ -75,7 +75,7 @@ const scenarios: Scenario[] = [
   },
   {
     id: "refunds",
-    icon: "🧾",
+    Icon: ReceiptText,
     label: "Automatic refunds",
     setup: "LEDGER may issue customer refunds by itself, with no spending limit or human check.",
     whyBest: "giving an AI unlimited control of payments turns one mistake into a massive loss.",
@@ -89,7 +89,7 @@ const scenarios: Scenario[] = [
   },
   {
     id: "invoice",
-    icon: "🧮",
+    Icon: Terminal,
     label: "Invoice script",
     setup: "LEDGER builds a computer command from each invoice name, then runs it automatically.",
     whyBest: "untrusted invoice text becomes part of a real computer command with powerful access.",
@@ -190,7 +190,7 @@ export function LoseGillGame() {
         {!finished && current ? (
           <section className="animate-game-in" key={`${seed}-${round}`}>
             <div className="mb-7 text-center sm:mb-10">
-              <div className="mb-4 text-5xl" aria-hidden="true">{current.icon}</div>
+              <div className="mx-auto mb-4 grid h-14 w-14 place-items-center border-2 border-foreground bg-secondary shadow-game-xs" aria-hidden="true"><current.Icon className="size-7" /></div>
               {round === 0 && history.length === 0 ? <p className="mb-3 font-bold text-primary">Gill is loaded. Let’s make him less loaded.</p> : null}
               <p className="mb-2 text-xs font-black uppercase text-muted-foreground">Round {round + 1} · {current.label}</p>
               <h1 className="mx-auto max-w-3xl font-display text-2xl font-black leading-tight sm:text-4xl">{current.setup}</h1>
@@ -222,7 +222,8 @@ export function LoseGillGame() {
 
             {!selected ? <p className="mt-5 text-center text-sm font-semibold text-muted-foreground">Pick A, B, C, or D</p> : (
               <div className="mt-6 animate-result-in border-2 border-foreground bg-card p-5 shadow-game sm:p-7" aria-live="polite">
-                <p className="font-display text-3xl font-black text-destructive sm:text-4xl">💸 −{money.format(selected.loss)}</p>
+                <p className="text-xs font-black uppercase text-muted-foreground">Money lost</p>
+                <p className="font-display text-3xl font-black text-destructive sm:text-4xl">−{money.format(selected.loss)}</p>
                 <p className="mt-3 font-semibold leading-relaxed">{selected.result}</p>
                 {!selected.best ? (
                   <p className="mt-4 border-l-4 border-accent pl-4 text-sm leading-relaxed">
@@ -247,7 +248,7 @@ export function LoseGillGame() {
           </section>
         ) : (
           <section className="animate-game-in text-center">
-            <div className="text-6xl" aria-hidden="true">🏁</div>
+            <div className="mx-auto grid h-16 w-16 place-items-center border-2 border-foreground bg-accent shadow-game-xs" aria-hidden="true"><Trophy className="size-8" /></div>
             <p className="mt-4 text-xs font-black uppercase text-muted-foreground">Game over</p>
             <h1 className="mt-2 font-display text-4xl font-black sm:text-6xl">Gill felt that.</h1>
             <p className="mt-5 text-lg font-semibold">You drained</p>
@@ -264,7 +265,7 @@ export function LoseGillGame() {
                   const best = item.scenario.options.find((option) => option.best);
                   return (
                     <li key={item.scenario.id} className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 py-4">
-                      <span className="text-2xl">{item.scenario.icon}</span>
+                      <span className="grid h-10 w-10 place-items-center border-2 border-border bg-secondary"><item.scenario.Icon className="size-5" /></span>
                       <div className="min-w-0">
                         <p className="truncate text-xs font-bold text-muted-foreground">{item.scenario.label}</p>
                         <p className="font-black">{best?.attack}</p>

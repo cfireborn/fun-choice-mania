@@ -109,7 +109,11 @@ function seededShuffle<T>(items: T[], seed: number) {
   for (let index = result.length - 1; index > 0; index -= 1) {
     value = (value * 9301 + 49297) % 233280;
     const swapIndex = Math.floor((value / 233280) * (index + 1));
-    [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
+    const currentItem = result[index];
+    const swapItem = result[swapIndex];
+    if (currentItem === undefined || swapItem === undefined) continue;
+    result[index] = swapItem;
+    result[swapIndex] = currentItem;
   }
   return result;
 }

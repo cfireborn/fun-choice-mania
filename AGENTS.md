@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Project architecture
+
+- Keep the game client-only with typed scenario data and deterministic seeded shuffling, because it needs no accounts or persistence and must hydrate consistently.
